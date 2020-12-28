@@ -7,7 +7,9 @@ import java.util.Scanner;
 
 public class Main {
 
-    static Program algo = new Program();
+    public static final int K_SIZE = 1000000; // to update this according to C !!!
+    public static final int M_SIZE = 10000; //
+     Program algo = new Program(K_SIZE,M_SIZE);
 
     public static void main(String[] args) throws IOException {
 
@@ -18,7 +20,7 @@ public class Main {
         do{
             System.out.println("Enter table size m");
             m =  scanner.nextLong();
-        }while(m>algo.M_SIZE);
+        }while(m>M_SIZE);
 
         System.out.println("Table size is: " + m);
 
@@ -26,7 +28,7 @@ public class Main {
         do{
             System.out.println("Enter hash size K");
             K =  scanner.nextInt();
-        }while(K>algo.K_SIZE);
+        }while(K>K_SIZE);
 
         System.out.println("Hash size K: " + K);
 
@@ -39,7 +41,7 @@ public class Main {
                 System.out.println("Enter your new file path");
                 String path = br.readLine();
                 System.out.println("Your file path: " +path);
-                insertFile(path);
+                algo.insertFile(path);
 
             case "checking":
 
@@ -49,8 +51,5 @@ public class Main {
         System.out.println("Bye :)");
     }
 
-    public static void insertFile(String path){
-        String data = algo.uploadFile(path);
-        algo.hasher(data.split(","));
-    }
+
 }
