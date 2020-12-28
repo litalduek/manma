@@ -7,9 +7,10 @@ import java.util.Scanner;
 
 public class Main {
 
+    static Program algo = new Program();
+
     public static void main(String[] args) throws IOException {
 
-        program algo = new program();
         Scanner scanner = new Scanner(System.in);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -38,7 +39,7 @@ public class Main {
                 System.out.println("Enter your new file path");
                 String path = br.readLine();
                 System.out.println("Your file path: " +path);
-                algo.updloadFile(path);
+                insertFile(path);
 
             case "checking":
 
@@ -46,5 +47,10 @@ public class Main {
         }
 
         System.out.println("Bye :)");
+    }
+
+    public static void insertFile(String path){
+        String data = algo.uploadFile(path);
+        algo.hasher(data.split(","));
     }
 }
