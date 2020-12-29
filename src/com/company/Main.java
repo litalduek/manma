@@ -5,32 +5,6 @@
 //
 //public class Main {
 //
-//    public static int searchInLinkedList(LinkedList L1,LinkedList L2,int k,int max,int min){
-//
-//        int i = 0;
-//        int j = 0;
-//
-//
-//        while(L1.get(i)!=null && (int)L1.get(i)<=k){
-//
-//            j = (int)Math.floor( ((Math.random() * (max - min)) + min));
-//            if ((int)L1.get(i)<=(int)L1.get(j) && (int)L1.get(j)<=k){
-//                L2.add(L1.get(j));
-//                if((int)L2.get(i)==k) {
-//                    return i;
-//                }
-//                i+=1;
-//            }
-//        }
-//
-//        if (i==0 || (int)L1.get(i)>k){
-//            return 0;
-//        }
-//
-//        return i;
-//
-//    }
-//
 //    public static double divisionformula(int k) {
 //        double formula = 0.0D;
 //        formula = (double)(k % 127);
