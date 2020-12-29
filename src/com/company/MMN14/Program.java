@@ -18,17 +18,17 @@ public class Program {
         this.K =K;
         this.m =M;
         hashArr = new int[this.m - 1];
-        this.hasher = new Hasher(K,m);
+        this.hasher = new Hasher(m);
     }
 
     public void hasher(String[] data){
         int index;
         for (int i = 0; i < data.length; i++) {
             int key = Integer.parseInt(data[i]);
-                index = hasher.hashDivider(key,m);
+                index = hasher.hashDivider(key);
                 hashArr[index] = 1;
                 if(K>1){
-                    index = hasher.hashMultiplier(key,m);
+                    index = hasher.hashMultiplier(key);
                     hashArr[index] = 1;
                 }
             }
