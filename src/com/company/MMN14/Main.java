@@ -46,14 +46,16 @@ public class Main {
                 String insertFilePath="C:/Users/User/Desktop/CS/מבני נתונים ומבוא לאלגוריתמים/MMN14/insertionfile.txt";
                 System.out.println("Your file path: " +insertFilePath);
                 String data = algo.uploadFile(insertFilePath);
-                algo.hasher(data.split(","));
-                algo.printHashTable();
+                int[] hashArr = algo.hasher(data.split(","));
+                algo.printHashTable(hashArr);
 
             case "check":
                 System.out.println("Enter your test file path");
-                String testFilePath = br.readLine();
+//                String testFilePath = br.readLine();
+                String testFilePath="C:/Users/User/Desktop/CS/מבני נתונים ומבוא לאלגוריתמים/MMN14/testfile.txt";
                 System.out.println("Your file path: " +testFilePath);
                 String testData = algo.uploadFile(testFilePath);
+                algo.compareArrays(testData.split(","));
 
             default: System.out.println("Would you like to Insert or Check?");
                 ans = br.readLine().toLowerCase();
@@ -61,6 +63,4 @@ public class Main {
 
         System.out.println("Bye :)");
     }
-
-
 }

@@ -1,6 +1,8 @@
 package com.company.MMN14;
 
 
+import com.sangupta.murmur.Murmur3;
+
 import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -10,44 +12,50 @@ public class Program {
     private final int K; // to update this according to C !!!
     private final int m; // to update this according to C !!!
     private int[] hashArr; //check if this is the correct size
-    private int[] hashTestArr;
-    private Hasher hasher;
-
 
     public Program(int K,int M){
         this.K =K;
         this.m =M;
-        hashArr = new int[this.m - 1];
-        this.hasher = new Hasher(m);
+        this.hashArr = new int[m-1];
     }
 
-    public void hasher(String[] data){
+    public int[] hasher(String[] data){
         int index;
         for (int i = 0; i < data.length; i++) {
-            int key = Integer.parseInt(data[i]);
-                index = hasher.hashDivider(key);
+            for (int j = 1; j <= K; j++) {
+                index = Math.abs((int)Murmur3.hash_x86_32(data[i].getBytes(),data[i].length(),j))%m;
                 hashArr[index] = 1;
-                if(K>1){
-                    index = hasher.hashMultiplier(key);
-                    hashArr[index] = 1;
-                }
             }
+        }
+        return hashArr;
     }
 
-    public void printHashTable(){
+    public void compareArrays(String[] testData){
+        int index;
+        for (int i = 0; i < testData.length; i++) {
+            boolean ok = true;
+            for (int j = 1; j <= K; j++) {
+                index = Math.abs((int)Murmur3.hash_x86_32(testData[i].getBytes(),testData[i].length(),j))%m;
+                if(hashArr[index]==0){
+                    ok=!ok;
+                    break;
+                }
+            }
+            if(!ok){
+                System.out.println(testData[i] + " not belongs to the structure");
+            }
+        }
+    }
+
+    public void printHashTable(int[] arr){
         System.out.println("Hash table indexes:");
-        for (int j = 0; j < hashArr.length; j++){
-            if(hashArr[j]==1){
+        for (int j = 0; j < arr.length; j++){
+            if(arr[j]==1){
                 System.out.print(j+",");
             }
         }
-        System.out.println("Hash table indexes:");
+        System.out.println();
     }
-
-//    public void insertFile(String path){
-//        String data = uploadFile(path);
-//        hasher(data.split(","));
-//    }
 
     public String uploadFile(String filePath) {
         String data = "";
