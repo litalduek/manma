@@ -1,79 +1,74 @@
 package com.company.MMN14;
 
-
-import com.sangupta.murmur.Murmur3;
-
-import java.io.*;
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.annotation.Documented;
 import java.util.Scanner;
 
 public class Program {
 
-    private final int K; // to update this according to C !!!
-    private final int m; // to update this according to C !!!
-    private int[] hashArr; //check if this is the correct size
+    static final int K_MAX_SIZE = 13;
+    static final int M_MAX_SIZE = 32*(10^6);
+    static Algo algo;
+    static Scanner scanner = new Scanner(System.in);
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    public Program(int K,int M){
-        this.K =K;
-        this.m =M;
-        this.hashArr = new int[m-1];
+    /**
+     * This method processes the user's request to insert a file into the structure or check the file's affiliation to the structure
+     * @param ans option selected by the user
+     * */
+    public static void program(String ans) throws IOException {
+            if(ans.equals("insert")) {
+                System.out.println("Enter your new file path");
+                String insertFilePath = br.readLine();
+//                String insertFilePath="C:/Users/User/Desktop/CS/מבני נתונים ומבוא לאלגוריתמים/MMN14/insertionfile.txt";
+                System.out.println("Your file path: " + insertFilePath);
+                String[] data = algo.uploadFile(insertFilePath,"Data keys are:");
+                algo.hasher(data,false);
+                algo.printHashTable();
+            }
+            else if(ans.equals("check")) {
+                System.out.println("Enter your test file path");
+                String testFilePath = br.readLine();
+//                String testFilePath="C:/Users/User/Desktop/CS/מבני נתונים ומבוא לאלגוריתמים/MMN14/testfile.txt";
+                System.out.println("Your file path: " + testFilePath);
+                String[] testData = algo.uploadFile(testFilePath, "Test file data keys are: ");
+                algo.hasher(testData,true);
+            }
     }
 
-    public int[] hasher(String[] data){
-        int index;
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 1; j <= K; j++) {
-                index = Math.abs((int)Murmur3.hash_x86_32(data[i].getBytes(),data[i].length(),j))%m;
-                hashArr[index] = 1;
-            }
-        }
-        return hashArr;
-    }
+    /**
+     * The program captures the k and m parameters from the user and asks if you want to insert or test the structure.
+     * @param args
+     * @throws IOException
+     */
+    public static void main(String[] args) throws IOException {
+        int m;
+        do{
+            System.out.println("Enter table size m");
+            m =  scanner.nextInt();
+//            m=701;
+        }while(m> M_MAX_SIZE);
 
-    public void compareArrays(String[] testData){
-        int index;
-        for (int i = 0; i < testData.length; i++) {
-            boolean ok = true;
-            for (int j = 1; j <= K; j++) {
-                index = Math.abs((int)Murmur3.hash_x86_32(testData[i].getBytes(),testData[i].length(),j))%m;
-                if(hashArr[index]==0){
-                    ok=!ok;
-                    break;
-                }
-            }
-            if(!ok){
-                System.out.println(testData[i] + " not belongs to the structure");
-            }
-        }
-    }
+        System.out.println("Table size is: " + m);
 
-    public void printHashTable(int[] arr){
-        System.out.println("Hash table indexes:");
-        for (int j = 0; j < arr.length; j++){
-            if(arr[j]==1){
-                System.out.print(j+",");
-            }
-        }
-        System.out.println();
-    }
+        int K;
+        do{
+            System.out.println("Enter hash size K");
+            K =  scanner.nextInt();
+//            K=4;
+        }while(K> K_MAX_SIZE);
 
-    public String uploadFile(String filePath) {
-        String data = "";
-        try {
-            File file = new File(filePath);
-            Scanner myReader = new Scanner(file);
-            System.out.println("Data keys:");
-            while (myReader.hasNextLine()) {
-                data = myReader.nextLine();
-                System.out.println(data);
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
+        System.out.println("Hash size K: " + K);
+         algo = new Algo(K, m);
 
-        return data;
+        String ans;
+        do{
+            System.out.println("Would you like to Insert or Check?");
+            ans = br.readLine().toLowerCase();
+            program(ans);
+        }while(!ans.equals("exit"));
     }
 
 }
